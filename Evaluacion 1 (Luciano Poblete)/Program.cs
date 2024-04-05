@@ -8,6 +8,7 @@ namespace Evaluacion_1__Luciano_Poblete_
 {
     internal class Program
     {
+        static Boolean ganar = false;
 
         private static void Juego()
         {
@@ -25,24 +26,26 @@ namespace Evaluacion_1__Luciano_Poblete_
 
             if (int.TryParse(aux, out elementosA) && int.TryParse(aux2, out elementosB))
             {
-                if (elementosA > 0 && elementosB > 0)
+                if ((elementosA >= 5 && elementosB >= 5) && (elementosA <= 8 && elementosB <= 8))
                 {
-                    int[,] matriz = new int[elementosA, elementosB];
+                    String[,] matriz = new String[elementosA, elementosB];
 
-                    PoblarTablero(ref matriz);
+                    PoblarTablero(ref matriz, elementosA, elementosB);
 
-                    //bucle del juego, break al detectar la variable global
+                    while (ganar != true)
+                    {
+                        //MoverJugador();
 
-                    //MoverJugador();
+                        PintarPantalla(ref matriz);
+                    }
 
-                    PintarPantalla(ref matriz);
 
                     BuscarEnVector(ref matriz, elementosA, elementosB);
 
                 }
                 else
                 {
-                    Console.WriteLine("el numero de elementos debe ser mayor a 0");
+                    Console.WriteLine("el numero de elementos debe ser mayor o igual a 5 o menor o igual que 8");
                 }
             }
             else
@@ -53,68 +56,39 @@ namespace Evaluacion_1__Luciano_Poblete_
         }
 
 
-        private static void PoblarTablero(ref int[,] matriz)
+        private static void PoblarTablero(ref String[,] matriz, int elementosA, int elementosB)
         {
+
             Random valor = new Random();
 
             for (int i = 0; i < matriz.GetLength(0); i++)
             {
                 for (int j = 0; j < matriz.GetLength(1); j++)
                 {
-                    matriz[i, j] = valor.Next(0, 10);
+                   
+                    matriz[i, j] = "P";
+                    matriz[i, j] = "W";
+                    matriz[i, j] = "V";
+                    matriz[i, j] = "O";
+                    matriz[i, j] = " ";
+                
+
                 }
             }
 
         }
 
-        private static void MoverPersonaje(ref int[,] matriz)
+        private static void MoverPersonaje(ref String[,] matriz)
         {
             //leer las teclas y utilizar un if para remplazar la posiciones de la  matriz
             //detectar si el personaje consigue el oro, cambiar variable global
 
-            //codigo de referencia abajo
 
-            Console.WriteLine("ingrese una posicion para mostrar el arreglo original");
-            String aux = Console.ReadLine().Trim();
-            String aux2 = Console.ReadLine().Trim();
-            int posicionA = 0;
-            int posicionB = 0;
 
-            if (int.TryParse(aux, out posicionA) && int.TryParse(aux2, out posicionB))
-            {
-
-                if ((posicionA >= 0 && posicionB >= 0) && (posicionA < matriz.Length && posicionB < matriz.Length))
-                {
-                    Console.WriteLine("El elemento solicitado es {0}", matriz[posicionA, posicionB]);
-
-                    Console.WriteLine("Ingrese un nuevo valor para esta posición");
-                    aux = Console.ReadLine().Trim();
-                    int nuevoValor = 0;
-
-                    if (int.TryParse(aux, out nuevoValor))
-                    {
-                        matriz[posicionA, posicionB] = nuevoValor;
-                        PintarPantalla(ref matriz);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Debe ingresar una unidad numerica entera");
-                    }
-
-                }
-                else
-                {
-                    Console.WriteLine("La posición solicitada está fuera de rango");
-                }
-            }
-            else
-            {
-                Console.WriteLine("La posición no es numerica");
-            }
         }
 
 
-        private static void PintarPantalla(ref int[,] matriz)
+        private static void PintarPantalla(ref String[,] matriz)
         {
             Console.WriteLine();
             Console.WriteLine("Elementos del arreglo");
@@ -133,7 +107,7 @@ namespace Evaluacion_1__Luciano_Poblete_
             Console.WriteLine();
         }
 
-        private static void BuscarEnVector(ref int[,] matriz, int elementosA, int elementosB)
+        private static void BuscarEnVector(ref String[,] matriz, int elementosA, int elementosB)
         {
             Console.WriteLine("");
             Console.WriteLine("Ingrese un valor para buscar: ");
@@ -149,12 +123,14 @@ namespace Evaluacion_1__Luciano_Poblete_
                 {
                     for (int j = 0; j < elementosB; j++)
                     {
-                        if (matriz[i, j] == valor)
+                      /* 
+                       if (matriz[i, j] == valor)
                         {
                             posicionA = i;
                             posicionB = j;
                             break;
                         }
+                      */
                     }
                 }
 
