@@ -9,12 +9,17 @@ namespace Evaluacion_1__Luciano_Poblete_
     internal class Program
     {
 
-        private static void unidimensional()
+        private static void Juego()
         {
             Console.Clear();
-            Console.WriteLine("ingrese la cantidad de elementos a crear");
+            Console.WriteLine("ingrese el tamaño del tablero, solo se permiten tableros de 5x5 hasta 8x8");
+
+            Console.Write("Filas: ");
             String aux = Console.ReadLine().Trim();
+
+            Console.Write("Columnas: ");
             String aux2 = Console.ReadLine().Trim();
+
             int elementosA = 0;
             int elementosB = 0;
 
@@ -24,52 +29,13 @@ namespace Evaluacion_1__Luciano_Poblete_
                 {
                     int[,] matriz = new int[elementosA, elementosB];
 
-                    PoblarVector(ref matriz);
+                    PoblarTablero(ref matriz);
 
-                    MostrarVector(ref matriz);
+                    //bucle del juego, break al detectar la variable global
 
+                    //MoverJugador();
 
-
-                    int[,] ordenado = (int[,])matriz.Clone();
-
-
-                    Console.WriteLine("ingrese una posicion para mostrar el arreglo original");
-                    aux = Console.ReadLine().Trim();
-                    aux2 = Console.ReadLine().Trim();
-                    int posicionA = 0;
-                    int posicionB = 0;
-
-                    if (int.TryParse(aux, out posicionA) && int.TryParse(aux2, out posicionB))
-                    {
-
-                        if ((posicionA >= 0 && posicionB >= 0) && (posicionA < matriz.Length && posicionB < matriz.Length))
-                        {
-                            Console.WriteLine("El elemento solicitado es {0}", matriz[posicionA, posicionB]);
-
-                            Console.WriteLine("Ingrese un nuevo valor para esta posición");
-                            aux = Console.ReadLine().Trim();
-                            int nuevoValor = 0;
-
-                            if (int.TryParse(aux, out nuevoValor))
-                            {
-                                matriz[posicionA, posicionB] = nuevoValor;
-                                MostrarVector(ref matriz);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Debe ingresar una unidad numerica entera");
-                            }
-
-                        }
-                        else
-                        {
-                            Console.WriteLine("La posición solicitada está fuera de rango");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("La posición no es numerica");
-                    }
+                    PintarPantalla(ref matriz);
 
                     BuscarEnVector(ref matriz, elementosA, elementosB);
 
@@ -87,7 +53,7 @@ namespace Evaluacion_1__Luciano_Poblete_
         }
 
 
-        private static void PoblarVector(ref int[,] matriz)
+        private static void PoblarTablero(ref int[,] matriz)
         {
             Random valor = new Random();
 
@@ -101,11 +67,59 @@ namespace Evaluacion_1__Luciano_Poblete_
 
         }
 
+        private static void MoverPersonaje(ref int[,] matriz)
+        {
+            //leer las teclas y utilizar un if para remplazar la posiciones de la  matriz
+            //detectar si el personaje consigue el oro, cambiar variable global
 
-        private static void MostrarVector(ref int[,] matriz)
+            //codigo de referencia abajo
+
+            Console.WriteLine("ingrese una posicion para mostrar el arreglo original");
+            String aux = Console.ReadLine().Trim();
+            String aux2 = Console.ReadLine().Trim();
+            int posicionA = 0;
+            int posicionB = 0;
+
+            if (int.TryParse(aux, out posicionA) && int.TryParse(aux2, out posicionB))
+            {
+
+                if ((posicionA >= 0 && posicionB >= 0) && (posicionA < matriz.Length && posicionB < matriz.Length))
+                {
+                    Console.WriteLine("El elemento solicitado es {0}", matriz[posicionA, posicionB]);
+
+                    Console.WriteLine("Ingrese un nuevo valor para esta posición");
+                    aux = Console.ReadLine().Trim();
+                    int nuevoValor = 0;
+
+                    if (int.TryParse(aux, out nuevoValor))
+                    {
+                        matriz[posicionA, posicionB] = nuevoValor;
+                        PintarPantalla(ref matriz);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Debe ingresar una unidad numerica entera");
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("La posición solicitada está fuera de rango");
+                }
+            }
+            else
+            {
+                Console.WriteLine("La posición no es numerica");
+            }
+        }
+
+
+        private static void PintarPantalla(ref int[,] matriz)
         {
             Console.WriteLine();
             Console.WriteLine("Elementos del arreglo");
+            //limpiar pantalla
+            
 
             for (int i = 0; i < matriz.GetLength(0); i++)
             {
@@ -164,13 +178,12 @@ namespace Evaluacion_1__Luciano_Poblete_
         static void Main(string[] args)
         {
 
-            unidimensional();
+            Juego();
 
             Console.WriteLine();
             Console.WriteLine("Presione cualquier tecla para finalizar...");
 
             Console.ReadKey();
-
 
         }
     }
