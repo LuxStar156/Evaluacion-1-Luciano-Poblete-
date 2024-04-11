@@ -24,7 +24,7 @@ namespace Evaluacion_1__Luciano_Poblete_
 
             if (int.TryParse(aux, out elementosA) && int.TryParse(aux2, out elementosB))
             {
-                if ((elementosA >= 5 && elementosB >= 5) && (elementosA <= 8 && elementosB <= 8))
+                if ((elementosA >= 5 && elementosB >= 5) && (elementosA <= 8 && elementosB <= 8 ))
                 {
                     String[,] matriz = new String[elementosA, elementosB];
 
@@ -132,7 +132,7 @@ namespace Evaluacion_1__Luciano_Poblete_
         private static void PintarPantalla(ref String[,] matriz)
         {
             Console.Clear();
-            Console.WriteLine("El mundo de Wampus");
+            Console.WriteLine("El mundo de Wumpus");
 
             for (int i = 0; i < matriz.GetLength(0); i++)
             {
@@ -143,6 +143,12 @@ namespace Evaluacion_1__Luciano_Poblete_
                 Console.WriteLine();
             }
 
+           
+            Console.WriteLine();
+        }
+
+        private static void Interactuar(ref String[,] matriz, int jugadorFila, int jugadorColumna, ref Boolean ganar)
+        {
             for (int i = jugadorFila - 1; i <= jugadorFila + 1; i++)
             {
                 for (int j = jugadorColumna - 1; j <= jugadorColumna + 1; j++)
@@ -154,27 +160,28 @@ namespace Evaluacion_1__Luciano_Poblete_
                         switch (contenido)
                         {
                             case "O":
+                                Console.ForegroundColor = ConsoleColor.Green;
                                 Console.WriteLine("Se puede ver un resplandor cerca.");
-                              
+                                Console.ResetColor();                             
                                 break;
+
                             case "W":
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Se siente mal olor.");
-                           
+                                Console.ResetColor();
                                 break;
+
                             case "P":
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Se siente la brisa.");
-                              
+                                Console.ResetColor();
+
                                 break;
                         }
                     }
                 }
             }
 
-            Console.WriteLine();
-        }
-
-        private static void Interactuar(ref String[,] matriz, int jugadorFila, int jugadorColumna, ref Boolean ganar)
-        {
 
             string elemento = matriz[jugadorFila, jugadorColumna];
 
@@ -182,19 +189,27 @@ namespace Evaluacion_1__Luciano_Poblete_
             switch (elemento)
             {
                 case "O":
-                    Console.WriteLine("¡Has encontrado el oro! ¡Has ganado!");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine();
+                    Console.WriteLine("¡Has encontrado el oro! ¡Has ganado! :)");
                     ganar = true;
+
                     break;
                 case "W":
-                    Console.WriteLine("¡Has encontrado al Wumpus! ¡Has perdido!");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine();
+                    Console.WriteLine("¡Te ha encontrado al Wumpus! ¡Has perdido! :(");
                     ganar = true; 
+
                     break;
                 case "P":
-                    Console.WriteLine("¡Has caído en un pozo! ¡Has perdido!");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine();
+                    Console.WriteLine("¡Te has caído en un pozo! ¡Has perdido! :(");
                     ganar = true; 
+
                     break;
                 default:
-          
                     break;
             }
         }
