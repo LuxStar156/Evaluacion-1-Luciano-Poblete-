@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Evaluacion_1__Luciano_Poblete_
 {
     internal class Program
     {
         static Boolean ganar = false;
+        static int jugadorFila;
+        static int jugadorColumna;
 
         private static void Juego()
         {
             Console.Clear();
-            Console.WriteLine("ingrese el tamaño del tablero, solo se permiten tableros de 5x5 hasta 8x8");
+            Console.WriteLine("Ingrese el tamaño del tablero. Solo se permiten tableros de 5x5 hasta 8x8");
 
             Console.Write("Filas: ");
             String aux = Console.ReadLine().Trim();
@@ -32,68 +30,110 @@ namespace Evaluacion_1__Luciano_Poblete_
 
                     PoblarTablero(ref matriz, elementosA, elementosB);
 
-                    while (ganar != true)
+                    Console.WriteLine("Presiona ENTER para comenzar");
+
+                    while (!ganar)
                     {
-                        //MoverJugador();
-
+                        MoverPersonaje(ref matriz);
                         PintarPantalla(ref matriz);
+                        Interactuar(ref matriz, jugadorFila, jugadorColumna, ref ganar);
+                
                     }
-
-
-                    BuscarEnVector(ref matriz, elementosA, elementosB);
-
                 }
                 else
                 {
-                    Console.WriteLine("el numero de elementos debe ser mayor o igual a 5 o menor o igual que 8");
+                    Console.WriteLine("El número de elementos debe ser mayor o igual a 5 y menor o igual que 8");
                 }
             }
             else
             {
-                Console.WriteLine("Debe ingresar una unidad numerica entera");
+                Console.WriteLine("Debe ingresar una unidad numérica entera");
             }
 
         }
 
-
         private static void PoblarTablero(ref String[,] matriz, int elementosA, int elementosB)
         {
+            Random rand = new Random();
 
-            Random valor = new Random();
+            int oroFila = rand.Next(0, elementosA);
+            int oroColumna = rand.Next(0, elementosB);
+            matriz[oroFila, oroColumna] = "O";
 
-            for (int i = 0; i < matriz.GetLength(0); i++)
+            int wumpusFila = rand.Next(0, elementosA);
+            int wumpusColumna = rand.Next(0, elementosB);
+            matriz[wumpusFila, wumpusColumna] = "W";
+
+            int numPozos = rand.Next(1, 5);
+            for (int i = 0; i < numPozos; i++)
             {
-                for (int j = 0; j < matriz.GetLength(1); j++)
-                {
-                   
-                    matriz[i, j] = "P";
-                    matriz[i, j] = "W";
-                    matriz[i, j] = "V";
-                    matriz[i, j] = "O";
-                    matriz[i, j] = " ";
-                
-
-                }
+                int pozoFila = rand.Next(0, elementosA);
+                int pozoColumna = rand.Next(0, elementosB);
+                matriz[pozoFila, pozoColumna] = "P";
             }
+
+            jugadorFila = rand.Next(0, elementosA);
+            jugadorColumna = rand.Next(0, elementosB);
+
+            if (oroFila == jugadorFila && oroColumna == jugadorColumna)
+            {
+                jugadorFila = rand.Next(0, elementosA);
+                jugadorColumna = rand.Next(0, elementosB);
+            }
+
+
 
         }
 
         private static void MoverPersonaje(ref String[,] matriz)
         {
-            //leer las teclas y utilizar un if para remplazar la posiciones de la  matriz
-            //detectar si el personaje consigue el oro, cambiar variable global
+            ConsoleKeyInfo tecla = Console.ReadKey();
 
+            matriz[jugadorFila, jugadorColumna] = " ";
 
+            switch (tecla.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    if (jugadorFila > 0) 
+                        
+                        jugadorFila--;
+
+                        break;
+
+                case ConsoleKey.DownArrow:
+                    if (jugadorFila < matriz.GetLength(0) - 1) 
+                        
+                        jugadorFila++;
+
+                        break;
+
+                case ConsoleKey.LeftArrow:
+                    if (jugadorColumna > 0)
+                        
+                        jugadorColumna--;
+
+                        break;
+
+                case ConsoleKey.RightArrow:
+                    if (jugadorColumna < matriz.GetLength(1) - 1) 
+
+                        jugadorColumna++;
+
+                        break;
+            }
+
+            if (matriz[jugadorFila,jugadorColumna] == null || matriz[jugadorFila, jugadorColumna] == " ")
+            {
+                matriz[jugadorFila, jugadorColumna] = "J";
+            }
+            
 
         }
 
-
         private static void PintarPantalla(ref String[,] matriz)
         {
-            Console.WriteLine();
-            Console.WriteLine("Elementos del arreglo");
-            //limpiar pantalla
-            
+            Console.Clear();
+            Console.WriteLine("El mundo de Wampus");
 
             for (int i = 0; i < matriz.GetLength(0); i++)
             {
@@ -104,63 +144,68 @@ namespace Evaluacion_1__Luciano_Poblete_
                 Console.WriteLine();
             }
 
+            for (int i = jugadorFila - 1; i <= jugadorFila + 1; i++)
+            {
+                for (int j = jugadorColumna - 1; j <= jugadorColumna + 1; j++)
+                {
+                    if (i >= 0 && i < matriz.GetLength(0) && j >= 0 && j < matriz.GetLength(1))
+                    {
+                        string contenido = matriz[i, j];
+
+                        switch (contenido)
+                        {
+                            case "O":
+                                Console.WriteLine("Se puede ver un resplandor cerca.");
+                              
+                                break;
+                            case "W":
+                                Console.WriteLine("Se siente mal olor.");
+                           
+                                break;
+                            case "P":
+                                Console.WriteLine("Se siente la brisa.");
+                              
+                                break;
+                        }
+                    }
+                }
+            }
+
             Console.WriteLine();
         }
 
-        private static void BuscarEnVector(ref String[,] matriz, int elementosA, int elementosB)
+        private static void Interactuar(ref String[,] matriz, int jugadorFila, int jugadorColumna, ref Boolean ganar)
         {
-            Console.WriteLine("");
-            Console.WriteLine("Ingrese un valor para buscar: ");
-            String aux = Console.ReadLine().Trim();
 
-            int valor = 0;
-            int posicionA = -1;
-            int posicionB = -1;
-
-            if (int.TryParse(aux, out valor))
+            string elemento = matriz[jugadorFila, jugadorColumna];
+    
+            switch (elemento)
             {
-                for (int i = 0; i < elementosA; i++)
-                {
-                    for (int j = 0; j < elementosB; j++)
-                    {
-                      /* 
-                       if (matriz[i, j] == valor)
-                        {
-                            posicionA = i;
-                            posicionB = j;
-                            break;
-                        }
-                      */
-                    }
-                }
-
-                if (posicionA != -1 && posicionB != -1)
-                {
-                    Console.WriteLine("El valor ingresado se encuentra en la posción {0},{1}", posicionA, posicionB);
-                }
-                else
-                {
-                    Console.WriteLine("Valor no encontrado");
-                }
+                case "O":
+                    Console.WriteLine("¡Has encontrado el oro! ¡Has ganado!");
+                    ganar = true;
+                    break;
+                case "W":
+                    Console.WriteLine("¡Has encontrado al Wumpus! ¡Has perdido!");
+                    ganar = true; 
+                    break;
+                case "P":
+                    Console.WriteLine("¡Has caído en un pozo! ¡Has perdido!");
+                    ganar = true; 
+                    break;
+                default:
+          
+                    break;
             }
-            else
-            {
-                Console.WriteLine("Debe ingresar una cantidad númerica entera");
-            }
-
-
         }
 
         static void Main(string[] args)
         {
-
             Juego();
 
             Console.WriteLine();
             Console.WriteLine("Presione cualquier tecla para finalizar...");
-
             Console.ReadKey();
-
         }
     }
 }
