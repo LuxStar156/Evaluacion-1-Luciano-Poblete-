@@ -77,10 +77,9 @@ namespace Evaluacion_1__Luciano_Poblete_
 
             if (oroFila == jugadorFila && oroColumna == jugadorColumna)
             {
-                jugadorFila = rand.Next(0, elementosA);
-                jugadorColumna = rand.Next(0, elementosB);
+                jugadorFila = 0;
+                jugadorColumna = 0;
             }
-
 
 
         }
@@ -178,6 +177,7 @@ namespace Evaluacion_1__Luciano_Poblete_
         {
 
             string elemento = matriz[jugadorFila, jugadorColumna];
+
     
             switch (elemento)
             {
