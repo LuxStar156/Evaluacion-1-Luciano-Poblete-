@@ -185,7 +185,6 @@ namespace Evaluacion_1__Luciano_Poblete_
 
             string elemento = matriz[jugadorFila, jugadorColumna];
 
-    
             switch (elemento)
             {
                 case "O":
