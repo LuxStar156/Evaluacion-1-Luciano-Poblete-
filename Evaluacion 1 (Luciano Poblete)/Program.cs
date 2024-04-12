@@ -153,7 +153,7 @@ namespace Evaluacion_1__Luciano_Poblete_
             {
                 for (int j = jugadorColumna - 1; j <= jugadorColumna + 1; j++)
                 {
-                    if (i >= 0 && i < matriz.GetLength(0) && j >= 0 && j < matriz.GetLength(1))
+                    if (i >= 0 && j >= 0 && i < matriz.GetLength(0) && j < matriz.GetLength(1))
                     {
                         string contenido = matriz[i, j];
 
@@ -191,21 +191,21 @@ namespace Evaluacion_1__Luciano_Poblete_
                 case "O":
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine();
-                    Console.WriteLine("¡Has encontrado el oro! ¡Has ganado! :)");
+                    Console.WriteLine("Has encontrado el oro... ¡GANASTE! :)");
                     ganar = true;
 
                     break;
                 case "W":
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine();
-                    Console.WriteLine("¡Te ha encontrado al Wumpus! ¡Has perdido! :(");
+                    Console.WriteLine("Te ha encontrado al Wumpus... ¡Has perdido! :(");
                     ganar = true; 
 
                     break;
                 case "P":
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine();
-                    Console.WriteLine("¡Te has caído en un pozo! ¡Has perdido! :(");
+                    Console.WriteLine("Te has caído en un pozo... ¡Has perdido! :(");
                     ganar = true; 
 
                     break;
